@@ -19,7 +19,7 @@ public class SortFlightData {
 		
 		Collections.sort(allFlightData);
 		
-		allFlightData = allFlightData.subList(0, 100);
+		allFlightData = allFlightData.subList(0, 50);
 		
 		return allFlightData;
 	}

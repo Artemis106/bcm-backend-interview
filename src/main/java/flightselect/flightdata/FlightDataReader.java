@@ -68,12 +68,13 @@ public class FlightDataReader {
 			
 			in = new BufferedReader(
 					  new InputStreamReader(dataReader.getInputStream()));
-			if (!Compagny.BEAM_AIR.getName().equals(airName)) {
 				String inputLine;
 				while ((inputLine = in.readLine()) != null) {
 					content.append(inputLine);
+					if (Compagny.BEAM_AIR.getName().equals(airName)) {
+						content.append("\n");
+					}
 				}
-			}
 			dataReader.disconnect();
 			
 		} catch (IOException e) {
@@ -97,27 +98,27 @@ public class FlightDataReader {
 					//parsing des données CSV
 					//malgré de nombreuse tentative je n'ai pas réussi a exploiter le flux csv
 					
-//					boolean isHeader = true;
-//					try (
-//							CSVParser csvParser = new CSVParser(in, CSVFormat.DEFAULT
-////									.withHeader("id", "price", "arrival_time", "departure_time")
-//									.withFirstRecordAsHeader()
-//									.withIgnoreHeaderCase()
-//									.withTrim());
-//							) {
-//						for (CSVRecord csvRecord : csvParser) {
-////							if (isHeader) {
-////								isHeader = false;
-////								continue;
-////							}
-//							FlightData flightData = new FlightData();
-//							flightData.setProvider(airName);
-//							flightData.setPrice(new Double(csvRecord.get(1)));
-//							flightData.setDeparture_time(csvRecord.get(2));
-//							flightData.setArrival_time(csvRecord.get(3));						  
-//							flightDataList.add(flightData);
-//						}
-//					}					
+					boolean isHeader = true;
+					try (
+							Reader reader = new StringReader(rawData);
+							CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
+									.withHeader("id", "price", "arrival_time", "departure_time")
+									.withIgnoreHeaderCase()
+									.withTrim());
+							) {
+						for (CSVRecord csvRecord : csvParser) {
+							if (isHeader) {
+								isHeader = false;
+								continue;
+							}
+							FlightData flightData = new FlightData();
+							flightData.setProvider(airName);
+							flightData.setPrice(new Double(csvRecord.get(1)));
+							flightData.setDeparture_time(csvRecord.get(2));
+							flightData.setArrival_time(csvRecord.get(3));						  
+							flightDataList.add(flightData);
+						}
+					}					
 				}
 			}
 		} catch (IOException e) {
