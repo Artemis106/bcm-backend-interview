@@ -17,7 +17,7 @@ import flightselect.sortData.SortFlightData;
 /**
  * Servlet implementation class SimpleServlet
  */
-@WebServlet("/flights")
+@WebServlet("/api/flights")
 public class SendFlightData extends HttpServlet {
    private static final long serialVersionUID = 1L;
    @Override
